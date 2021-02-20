@@ -2,9 +2,12 @@
 
 namespace TypiCMS\Modules\Events\Models;
 
+use Database\Factories\Events\EventFactory;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracasts\Presenter\PresentableTrait;
 use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Models\Base;
@@ -19,6 +22,7 @@ class Event extends Base
     use HasTranslations;
     use Historable;
     use PresentableTrait;
+    use HasFactory;
 
     protected $presenter = ModulePresenter::class;
 
@@ -35,7 +39,22 @@ class Event extends Base
         'summary',
         'body',
         'website',
+        'paid',
+        'public',
+        'restriction',
+        'occurence',
+        'resources',
     ];
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return EventFactory::new();
+    }
 
     public function upcoming($number = null): Collection
     {
@@ -86,5 +105,30 @@ class Event extends Base
     public function image(): BelongsTo
     {
         return $this->belongsTo(File::class, 'image_id');
+    }
+
+    public function series(): BelongsTo
+    {
+        return $this->belongsTo(EventSeries::class, 'series_id');
+    }
+
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(EventTicket::class);
+    }
+
+    public function contacts(): HasMany
+    {
+        return $this->hasMany(EventContact::class);
+    }
+
+    public function attendees(): HasMany
+    {
+        return $this->hasMany(EventAttendee::class);
+    }
+
+    public function venue(): BelongsTo
+    {
+        return $this->belongsTo(EventVenue::class);
     }
 }

@@ -1,19 +1,10 @@
-@extends('core::admin.master')
+@extends('events::admin.tabs')
 
-@section('title', $model->present()->title)
+@section('event')
 
-@section('content')
-
-    <div class="header">
-        @include('core::admin._button-back', ['module' => 'events'])
-        <h1 class="header-title @if (!$model->present()->title)text-muted @endif">
-            {{ $model->present()->title ?: __('Untitled') }}
-        </h1>
-    </div>
-
-    {!! BootForm::open()->put()->action(route('admin::update-event', $model->id))->multipart()->role('form') !!}
+    {!! BootForm::open()->put()->action(route('admin::update-event', $model->id))->multipart()->role('form')->attribute('id', 'form') !!}
     {!! BootForm::bind($model) !!}
-        @include('events::admin._form')
+        @include('events::admin._event')
     {!! BootForm::close() !!}
 
 @endsection

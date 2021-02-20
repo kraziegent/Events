@@ -8,6 +8,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
 use TypiCMS\Modules\Core\Observers\SlugObserver;
+use TypiCMS\Modules\Events\Composers\SelectVenuesComposer;
 use TypiCMS\Modules\Events\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Events\Facades\Events;
 use TypiCMS\Modules\Events\Models\Event;
@@ -46,6 +47,11 @@ class ModuleServiceProvider extends ServiceProvider
          * Sidebar view composer
          */
         $this->app->view->composer('core::admin._sidebar', SidebarViewComposer::class);
+
+        /**
+         * Venues select list view composer
+         */
+        $this->app->view->composer('events::admin._event', SelectVenuesComposer::class);
 
         /*
          * Add the page in the view.

@@ -14,12 +14,16 @@ class FormRequest extends AbstractFormRequest
             'image_id' => 'nullable|integer',
             'title.*' => 'nullable|max:255',
             'slug.*' => 'nullable|alpha_dash|max:255|required_if:status.*,1|required_with:title.*',
-            'venue.*' => 'nullable|max:255',
+            'venue' => 'required|max:255',
             'address.*' => 'nullable',
-            'website.*' => 'nullable|url',
+            // 'website.*' => 'nullable|url',
             'status.*' => 'boolean',
-            'summary.*' => 'nullable',
-            'body.*' => 'nullable',
+            'paid' => 'required',
+            'summary' => 'required',
+            'body' => 'required',
+            'public.*' => 'boolean',
+            'restriction' => 'required',
+            'occurence' => 'required',
         ];
     }
 }

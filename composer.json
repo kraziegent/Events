@@ -1,11 +1,11 @@
 {
-    "name": "typicms/events",
-    "description": "",
+    "name": "kraziegent/events",
+    "description": "Events module for the RiverCMS",
     "license": "MIT",
     "authors": [
         {
-            "name": "Samuel De Backer",
-            "email": "sdebacker@gmail.com"
+            "name": "Peter Olumolu",
+            "email": "olumolupeter@gmail.com"
         }
     ],
     "require": {
