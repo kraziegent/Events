@@ -12,9 +12,19 @@
         "eluceo/ical": "^0.16",
         "laravel/framework": "~8.0"
     },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "phpunit/phpunit": "^9.3",
+        "orchestra/testbench": "^6.12"
+    },
     "autoload": {
         "psr-4": {
             "TypiCMS\\Modules\\Events\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

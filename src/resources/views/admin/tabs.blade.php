@@ -1,7 +1,7 @@
 @extends('core::admin.master')
 
 @if ($model->id)
-    @section('title', $model->present()->title)
+    @section('title', $model->title)
 @else
     @section('title', __('New event'))
 @endif
@@ -10,17 +10,23 @@
 
     <div class="header">
         @include('core::admin._button-back', ['module' => 'events'])
-        <h1 class="header-title @if (!$model->present()->title)text-muted @endif">
+        <h1 class="header-title @if (!$model->title)text-muted @endif">
             @if ($model->id)
-                {{ $model->present()->title ?: __('Untitled') }}
+                {{ $model->title ?: __('Untitled') }}
             @else
                 @lang('New event')
             @endif
         </h1>
     </div>
 
-    @component('core::admin._buttons-form', ['model' => $model])
-    @endcomponent
+    <div class="btn-toolbar mb-4">
+        <button class="btn btn-sm btn-primary me-2" value="true" id="exit" name="exit" type="submit" form="form">{{ __('Save and exit') }}</button>
+        <button class="btn btn-sm btn-light me-2" type="submit" form="form">{{ __('Save') }}</button>
+        {{-- @if ($model->getTable() == 'pages' || Route::has($locale.'::'.Str::singular($model->getTable())))
+            <a class="btn btn-sm btn-light btn-preview me-2" href="{{ $model->previewUri() }}?preview=true">{{ __('Preview') }}</a>
+        @endif
+        @include('core::admin._lang-switcher-for-form') --}}
+    </div>
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -67,15 +73,21 @@
 
     <script>
         $(function(){
-            console.log($("[type=checkbox]"))
 
             if($("#paid").prop('checked')) {
                 $(".tickets").show("fast")
-                console.log('hey')
+            }
+
+            if($("#public").prop('checked')) {
+                $("#registration").show("fast")
             }
 
             $(".paid").on( "click", function() {
                 $( ".tickets" ).toggle()
+            });
+
+            $("#public").on( "click", function() {
+                $( "#registration" ).toggle()
             });
 
         });

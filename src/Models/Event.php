@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Models\Base;
 use TypiCMS\Modules\Events\Presenters\ModulePresenter;
 use TypiCMS\Modules\Files\Models\File;
@@ -19,7 +18,6 @@ use TypiCMS\Modules\History\Traits\Historable;
 class Event extends Base
 {
     use HasFiles;
-    use HasTranslations;
     use Historable;
     use PresentableTrait;
     use HasFactory;
@@ -29,22 +27,6 @@ class Event extends Base
     protected $dates = ['start_date', 'end_date'];
 
     protected $guarded = [];
-
-    public $translatable = [
-        'title',
-        'slug',
-        'status',
-        'venue',
-        'address',
-        'summary',
-        'body',
-        'website',
-        'paid',
-        'public',
-        'restriction',
-        'occurence',
-        'resources',
-    ];
 
     /**
      * Create a new factory instance for the model.
@@ -95,6 +77,16 @@ class Event extends Base
                 return isset($models[$adjacentKey]) ? $models[$adjacentKey] : null;
             }
         }
+    }
+
+    public function setStatusAttribute($status)
+    {
+        $this->attributes['status'] = $status;
+    }
+
+    public function uri($locale = null): string
+    {
+        return '/';
     }
 
     public function getThumbAttribute(): string

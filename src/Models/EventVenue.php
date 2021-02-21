@@ -4,14 +4,12 @@ namespace TypiCMS\Modules\Events\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Models\Base;
 // use TypiCMS\Modules\Events\Presenters\ModulePresenter;
 use TypiCMS\Modules\History\Traits\Historable;
 
 class EventVenue extends Base
 {
-    use HasTranslations;
     use Historable;
     use PresentableTrait;
 
@@ -19,16 +17,9 @@ class EventVenue extends Base
 
     protected $guarded = [];
 
-    public $translatable = [
-        'venue',
-        'status',
-    ];
-
-    public function isActive($locale = null): bool
+    public function isActive(): bool
     {
-        $locale = $locale ?: 'en';
-
-        return (bool) $this->translate('status', $locale);
+        return (bool) $this->status;
     }
 
     public function events(): HasMany

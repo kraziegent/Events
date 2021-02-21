@@ -10,19 +10,19 @@ class FormRequest extends AbstractFormRequest
     {
         return [
             'start_date' => 'required|date_format:Y-m-d',
-            'end_date' => 'required|date_format:Y-m-d|after_or_equal:start_date',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after_or_equal:start_time',
             'image_id' => 'nullable|integer',
-            'title.*' => 'nullable|max:255',
-            'slug.*' => 'nullable|alpha_dash|max:255|required_if:status.*,1|required_with:title.*',
-            'venue' => 'required|max:255',
-            'address.*' => 'nullable',
-            // 'website.*' => 'nullable|url',
-            'status.*' => 'boolean',
+            'title' => 'nullable|max:255',
+            'slug' => 'nullable|alpha_dash|max:255|required_if:status,1|required_with:title',
+            'venue_id' => 'required|max:255',
+            'address' => 'nullable',
+            'status' => 'boolean',
             'paid' => 'required',
             'summary' => 'required',
             'body' => 'required',
-            'public.*' => 'boolean',
-            'restriction' => 'required',
+            'public' => 'boolean',
+            'registration' => 'required',
             'occurence' => 'required',
         ];
     }

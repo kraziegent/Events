@@ -51,6 +51,11 @@ class RouteServiceProvider extends ServiceProvider
             $router->get('events', [ApiController::class, 'index'])->middleware('can:read events');
             $router->patch('events/{event}', [ApiController::class, 'updatePartial'])->middleware('can:update events');
             $router->delete('events/{event}', [ApiController::class, 'destroy'])->middleware('can:delete events');
+            //Tickets
+            $router->get('tickets/{event}', [TicketController::class, 'index'])->middleware('can:read events');
+            $router->post('tickets/{event}', [TicketController::class, 'store'])->middleware('can:create events');
+            $router->patch('tickets/{ticket}', [TicketController::class, 'update'])->middleware('can:update events');
+            $router->delete('tickets/{ticket}', [TicketController::class, 'destroy'])->middleware('can:delete events');
         });
     }
 }

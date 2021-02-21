@@ -13,7 +13,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('event_series', function (Blueprint $table) {
             $table->id();
-            $table->json('title');
+            $table->string('title');
             $table->json('custom_fields')->nullable();
             $table->timestamps();
         });
@@ -25,17 +25,16 @@ class CreateEventsTable extends Migration
             $table->timestamp('start_date');
             $table->timestamp('end_date')->nullable();
             $table->integer('image_id')->unsigned()->nullable();
-            $table->json('status');
-            $table->json('title');
-            $table->json('slug');
-            $table->json('venue');
-            $table->json('address')->nullable();
-            $table->json('summary');
-            $table->json('body');
-            // $table->json('website')->nullable();
-            $table->json('paid'); //Boolean either paid 1 or free 0
-            $table->json('public'); //Boolean either members only or available to all
-            $table->json('restriction'); //Options are member/public/{role}
+            $table->boolean('status');
+            $table->string('title');
+            $table->string('slug');
+            $table->unsignedBigInteger('venue_id');
+            $table->string('address')->nullable(); //can either be a physical address or a url for digital venues
+            $table->text('summary');
+            $table->longText('body');
+            $table->boolean('paid'); //Boolean either paid 1 or free 0
+            $table->boolean('public'); //Determines if the event is for registered members only or for the public.
+            $table->boolean('registration'); //Determines if public event requires registration
             $table->json('occurence')->nullable(); // frequency and interval
             $table->json('resources')->nullable(); // key & url
             $table->json('custom_fields')->nullable();
@@ -45,12 +44,12 @@ class CreateEventsTable extends Migration
         Schema::create('event_tickets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('event_id');
-            $table->json('type'); // free/paid
-            $table->json('restriction'); // whom the ticket applies to.
-            $table->json('title');
+            $table->string('type'); // free/paid
+            $table->string('restriction'); // whom the ticket applies to.
+            $table->string('title');
             $table->char('currency', 3)->nullable();
-            $table->integer('price')->nullable();
-            $table->integer('vat')->nullable();
+            $table->decimal('price',19,4)->nullable();
+            $table->decimal('vat',19,4)->nullable();
             $table->integer('max')->default(1); // How many tickets can one person purchase at a time.
             $table->timestamps();
         });
@@ -58,12 +57,12 @@ class CreateEventsTable extends Migration
         Schema::create('event_contacts', function (Blueprint $table) { //Facilitators/lecturers/delegates/presenters
             $table->id();
             $table->unsignedBigInteger('event_id');
-            $table->json('type'); //cordinator/
+            $table->string('type'); //cordinator/
             $table->boolean('details')->default(1); //to control if we show contact details on the event page.
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
-            $table->json('description')->nullable();
+            $table->longText('description')->nullable();
             $table->json('custom_fields')->nullable();
             $table->timestamps();
         });
@@ -73,7 +72,7 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('ticket_id')->nullable();
             $table->unsignedBigInteger('payment_id')->nullable();
-            $table->json('payment_status')->nullable();
+            $table->boolean('payment_status')->nullable();
             $table->integer('amount')->nullable();
             $table->string('name')->nullable();
             $table->string('email');
@@ -84,8 +83,9 @@ class CreateEventsTable extends Migration
 
         Schema::create('event_venues', function (Blueprint $table) {
             $table->id();
-            $table->json('venue');
-            $table->json('status');
+            $table->string('venue');
+            $table->string('type'); //Digital/Physical
+            $table->boolean('status');
             $table->string('service')->nullable();
             $table->timestamps();
         });

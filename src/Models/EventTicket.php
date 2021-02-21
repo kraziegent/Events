@@ -2,16 +2,15 @@
 
 namespace TypiCMS\Modules\Events\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laracasts\Presenter\PresentableTrait;
-use Spatie\Translatable\HasTranslations;
 use TypiCMS\Modules\Core\Models\Base;
 // use TypiCMS\Modules\Events\Presenters\ModulePresenter;
 use TypiCMS\Modules\History\Traits\Historable;
 
 class EventTicket extends Base
 {
-    use HasTranslations;
     use Historable;
     use PresentableTrait;
 
@@ -19,13 +18,13 @@ class EventTicket extends Base
 
     protected $guarded = [];
 
-    public $translatable = [
-        'title',
-        'type',
-    ];
-
     public function event(): BelongsTo
     {
         return $this->belongsTo(Event::class);
+    }
+
+    public function scopeByEvent(Builder $query, $event_id): Builder
+    {
+        return $query->where('event_id', $event_id);
     }
 }

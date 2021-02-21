@@ -42,7 +42,7 @@ class AdminController extends BaseAdminController
     public function store(FormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $event = Event::create($data);
+        $event = Event::create($this->format($data));
 
         return $this->redirect($request, $event);
     }
@@ -50,8 +50,26 @@ class AdminController extends BaseAdminController
     public function update(Event $event, FormRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $event->update($data);
+        $event->update($this->format($data));
 
         return $this->redirect($request, $event);
+    }
+
+    protected function format(Array $data): Array
+    {
+        $start_date = $data['start_date'].' '.$data['start_time'];
+        $end_date = $data['start_date'].' '.$data['end_time'];
+
+        unset($data['start_time']);
+        unset($data['end_time']);
+
+        if(is_string($data['occurence'])) {
+            $data['occurence'] = json_encode(array('frquency' => 'once', 'interval' => '1'));
+        }
+
+        $data['start_date'] = $start_date;
+        $data['end_date'] = $end_date;
+
+        return $data;
     }
 }

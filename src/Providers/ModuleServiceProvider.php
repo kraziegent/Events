@@ -7,7 +7,7 @@ use Eluceo\iCal\Component\Event as EluceoEvent;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use TypiCMS\Modules\Core\Facades\TypiCMS;
-use TypiCMS\Modules\Core\Observers\SlugObserver;
+use TypiCMS\Modules\Core\Observers\SlugMonolingualObserver;
 use TypiCMS\Modules\Events\Composers\SelectVenuesComposer;
 use TypiCMS\Modules\Events\Composers\SidebarViewComposer;
 use TypiCMS\Modules\Events\Facades\Events;
@@ -41,7 +41,7 @@ class ModuleServiceProvider extends ServiceProvider
         AliasLoader::getInstance()->alias('Events', Events::class);
 
         // Observers
-        Event::observe(new SlugObserver());
+        Event::observe(new SlugMonolingualObserver());
 
         /*
          * Sidebar view composer
